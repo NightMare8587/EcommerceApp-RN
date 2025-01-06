@@ -6,7 +6,7 @@ export default function Splash({navigation}) {
     const {loggedIn} = useAppContext();
     useEffect(() => {
         setTimeout(() => {
-            navigation.navigate("Home");
+            navigation.navigate(loggedIn ? "Home" : "Login");
         }, 2000)
     },[]);
   return (
