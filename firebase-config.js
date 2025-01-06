@@ -1,6 +1,9 @@
 import { initializeApp } from "firebase/app";
-import { initializeAuth } from "firebase/auth";
-
+import {
+  initializeAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 const firebaseConfig = {
   apiKey: "AIzaSyDfGEZu-XFufWnByZL9dJJky4AwFG4klnE",
   authDomain: "ecommerceapp-rn-db298.firebaseapp.com",
@@ -14,4 +17,9 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const firebaseAuth = initializeAuth(firebaseApp);
 
-export { firebaseApp, firebaseAuth };
+export {
+  firebaseApp,
+  firebaseAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+};

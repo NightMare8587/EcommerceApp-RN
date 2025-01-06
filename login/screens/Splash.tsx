@@ -1,12 +1,15 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React, { useContext, useEffect } from 'react'
 import { useAppContext } from '../../AppContext'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Splash({navigation}) {
-    const {loggedIn} = useAppContext();
     useEffect(() => {
+        const loggedIn = AsyncStorage.getItem("loggedIn");
         setTimeout(() => {
-            navigation.navigate(loggedIn ? "Home" : "Login");
+            loggedIn.then((value) => {
+                navigation.navigate(value ? "Home" : "Login");
+            })
         }, 2000)
     },[]);
   return (

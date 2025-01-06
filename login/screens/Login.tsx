@@ -1,16 +1,48 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
-
-export default function Login() {
+import {firebaseApp, firebaseAuth} from '../../firebase-config'
+import { signInWithEmailAndPassword , createUserWithEmailAndPassword} from 'firebase/auth';
+import { useAppContext } from '../../AppContext'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+export default function Login({navigation}) {
+    const {loggedIn, setIsLoggedIn} = useAppContext();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
+    const navigateToHome = () => {
+        setIsLoggedIn(true);
+        AsyncStorage.setItem("loggedIn","true");
+        navigation.reset({
+            index: 0,
+            routes: [{name: "Home"}]
+        })
+    }
     const signInWithEmailPwd = async () => {
-        
+        try{
+            console.log("Started sign in")
+        const user = (await signInWithEmailAndPassword(firebaseAuth,email,password)).user
+        if(user == null){
+            console.log("User is null when sign in")
+            createAccountWithEmailPwd();}
+        else{
+            console.log("User not null just navigate")
+            navigateToHome();}
+        }catch(e) {
+            console.log("Got error in catch sign in " + e)
+          createAccountWithEmailPwd();  
+        }
     }
 
     const createAccountWithEmailPwd = async () => {
-
+        try{
+        const user = (await createUserWithEmailAndPassword(firebaseAuth, email, password)).user
+        if(user != null) {
+            navigateToHome();
+        } else {
+            alert("Something went wrong :(");
+        }
+    } catch(e) {
+        console.log("Error using create account " + e)
+    }
     }
 
     const signInWithGoogle = async () => {
@@ -32,6 +64,7 @@ export default function Login() {
       value={password}
       onChangeText={setPassword}
       placeholder='Enter your password'
+      secureTextEntry= {true}
       />
 
       <TouchableOpacity style={styles.buttonContainer} onPress={signInWithEmailPwd}>
