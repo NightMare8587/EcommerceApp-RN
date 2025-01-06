@@ -13,7 +13,8 @@ export default function Splash({navigation}) {
     },[]);
   return (
     <View style={styles.container}>
-      <Text>Splash</Text>
+      <Text style={styles.appHeading}>Ecommerce App</Text>
+      <Text style={styles.appSubHeading}>Shop at low prices</Text>
     </View>
   )
 }
@@ -23,5 +24,16 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    appHeading: {
+        fontSize: 34,
+        fontWeight: 800,
+        color: '#227c3f'
+    },
+    appSubHeading: {
+        fontSize: 24,
+        fontWeight: 400,
+        color: '#227c3f',
+        marginTop: 10
     }
 })
